@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "0 */4 * * *"
   workflow_dispatch:
+  push:
     
 env:
   GitHubMail: "147729717+AG0G@users.noreply.github.com"
@@ -47,7 +48,7 @@ jobs:
           cd udemy
           git add index.html
           git commit -m "[AUTOMATED] Updated Website With Fresh Coupons"
-          git push -q "https://ag0g:${{ secrets.GT_PAT }}@github.com/ag0g/udemy" -f  HEAD:main || exit 1
+          git push -q "https://${{ secrets.GT_PAT }}@github.com/ag0g/udemy" -f  HEAD:main || exit 1
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
         with:
