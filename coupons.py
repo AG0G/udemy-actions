@@ -126,12 +126,9 @@ class Scrapper:
     async def coursevania(self, page) -> list:
         cv_links = []
         async with self.session(headers=self.head) as ass:
-            soup = bs(
-                await self.__fetch_html(ass, "https://coursevania.com/courses/"),
-                "html5lib",
-            )
+            content = self.fetch_page_content("https://coursevania.com/courses/")
+            soup = self.parse_html(content)
             
-            nonce = soup.find(string=re.compile('load_content'))
             nonce = json.loads(
                     re.search(
                         r"var stm_lms_nonces = ({.*?});", soup.text, re.DOTALL
