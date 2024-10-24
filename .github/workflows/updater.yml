@@ -45,7 +45,8 @@ jobs:
       - name: Push To Repo
         run: |
           cd udemy
-          git add .
+          git reset
+          git add index.html
           git commit -m "[AUTOMATED] Updated Website With Fresh Coupons"
           git push -q "https://${{secrets.GH_TOK}}@github.com/${GITHUB_REPOSITORY}" -f  HEAD:gh-pages || exit 1
       - name: Delete workflow runs
