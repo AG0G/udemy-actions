@@ -129,11 +129,13 @@ class Scrapper:
             soup= bs(await self.__fetch_html(ass, "https://coursevania.com/courses/"),
             "html5lib",
             )
+            print(soup.text)
+            """
             nonce = json.loads(
                     re.search(
                         r"var stm_lms_nonces = ({.*?});", soup.text, re.DOTALL
                     ).group(1)
-                )["load_content"]
+                )["load_content"]"""
             url = (
                 "https://coursevania.com/wp-admin/admin-ajax.php?&template=courses/grid&args={%22posts_per_page%22:%2230%22}&action=stm_lms_load_content&nonce="
                 + nonce
