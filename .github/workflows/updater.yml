@@ -48,7 +48,6 @@ jobs:
           cd udemy
           git add index.html
           git commit -m "[AUTOMATED] Updated Website With Fresh Coupons"
-          git remote set-url origin "https://github.com/${{ github.repository }}"
           git push -q "https://${{ github.token}}@github.com/${{ github.repository }}" -f  HEAD:gh-pages || exit 1
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
