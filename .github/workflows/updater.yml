@@ -45,7 +45,6 @@ jobs:
       - name: Push To Repo
         run: |
           cd udemy
-          git reset
           git add index.html
           git commit -m "[AUTOMATED] Updated Website With Fresh Coupons"
           git push -q "https://${{ secrets.GT_PAT }}@github.com/ag0g/udemy" -f  HEAD:main || exit 1
