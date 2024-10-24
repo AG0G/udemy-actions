@@ -83,13 +83,13 @@ class Scrapper:
         async with self.session(headers=self.head) as ass:
             soup = bs(
                 await self.__fetch_html(
-                    ass, "https://www.tutorialbar.com/all-courses/page/" + str(page)
+                    ass, "https://www.tutorialbar.com/all-courses/page/{str(page)}"
                 ),
                 "html5lib",
             )
             all = soup.find_all(
-                "div", class_="content_constructor pb0 pr20 pl20 mobilepadding"
-            )
+                    "h3", class_="mb15 mt0 font110 mobfont100 fontnormal lineheight20"
+                )
             for index, items in enumerate(all):
                 try:
                     title = items.a.text
@@ -132,7 +132,11 @@ class Scrapper:
             )
             
             nonce = soup.find(string=re.compile('load_content'))
-            nonce = json.loads(nonce.strip().strip(";").split('=')[1])["load_content"]
+            nonce = json.loads(
+                    re.search(
+                        r"var stm_lms_nonces = ({.*?});", soup.text, re.DOTALL
+                    ).group(1)
+                )["load_content"]
             url = (
                 "https://coursevania.com/wp-admin/admin-ajax.php?&template=courses/grid&args={%22posts_per_page%22:%2230%22}&action=stm_lms_load_content&nonce="
                 + nonce
@@ -150,7 +154,7 @@ class Scrapper:
                 cv_links.append(
                     title
                     + "|:|"
-                    + soup.find("div", attrs={"class": "stm-lms-buy-buttons"}).a["href"]
+                    + soup.find("div", attrs={"class": "masterstudy-button-affiliate__link"}).a["href"]
                 )
         return self._parse(cv_links)
 
