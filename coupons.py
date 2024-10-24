@@ -19,7 +19,6 @@ class Scrapper:
 }
         self.session = aiohttp.ClientSession
 
-            return await response.text()
     def __fetch_html(self, url: str, headers: dict = None) -> bytes:
         if headers is None:
             headers = self.head
