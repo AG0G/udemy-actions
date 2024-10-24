@@ -30,8 +30,8 @@ async def updater():
             "------------------------Started collecting Coupons---------------------------------")
         links = await scp.discudemy(page)
         links += await scp.udemy_freebies(page)
-        #links += await scp.tutorialbar(page)
-        #links += await scp.coursevania(page)
+        links += await scp.tutorialbar(page)
+        links += await scp.coursevania(page)
         links += await scp.idcoupons(page)
 
         # unpack
