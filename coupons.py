@@ -1,7 +1,7 @@
 import json
 import re
 from urllib.parse import unquote
-
+import requests
 import aiohttp
 from bs4 import BeautifulSoup as bs
 from yarl import URL
@@ -11,14 +11,19 @@ class Scrapper:
 
     def __init__(self) -> None:
         self.head = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari/537.36 Edg/89.0.774.77",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-        }
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Referer': 'https://udemy.com',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Connection': 'keep-alive',
+}
         self.session = aiohttp.ClientSession
 
-    async def __fetch_html(self, session: aiohttp.ClientSession, url) -> str:
-        async with session.get(url) as response:
             return await response.text()
+    def __fetch_html(self, url: str, headers: dict = None) -> bytes:
+        if headers is None:
+            headers = self.head
+        return requests.get(url, headers=headers).content
 
 
     async def __fetch_json(self, session: aiohttp.ClientSession, url) -> any:
@@ -61,6 +66,7 @@ class Scrapper:
                 await self.__fetch_html(
                     ass, "https://www.udemyfreebies.com/free-udemy-courses/" + str(page)
                 ),
+                
                 "html5lib",
             )
             all = soup.find_all("div", "coupon-name")
